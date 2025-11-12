@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/joho/godotenv"
 	"github.com/emeey-lanr/email_service/message_broker"
+   "github.com/emeey-lanr/email_service/cache"
 	"log"
 )
 
@@ -18,9 +19,11 @@ func main (){
 
    defer connection.Close()
    defer channel.Close()
-    
-  
-//  Consume messages from queue
 
+   rds := cache.ConnectToRedis()
+    
+       message_broker.Consumer(channel, rds)
+//  Consume messages from queue
+    
 
 }

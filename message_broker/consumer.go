@@ -1,14 +1,18 @@
 package message_broker
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
+	"github.com/emeey-lanr/email_service/email"
+	"github.com/emeey-lanr/email_service/model"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/redis/go-redis/v9"
 )
 
 
-func Consumer (channel *amqp.Channel) {
+func Consumer (channel *amqp.Channel, rds *redis.Client) {
 
 //   Email Queue
 	_, err := channel.QueueDeclare(
@@ -57,6 +61,10 @@ func Consumer (channel *amqp.Channel) {
 		for data := range messages {
 			success := false
             successAddress := &success
+           
+			var messagequed model.QueueResponse
+        
+			json.Unmarshal([]byte(data.Body), &messagequed)
 
 			// since sendEmail return a bool
 			// when it's  true, we break the loop
@@ -65,11 +73,11 @@ func Consumer (channel *amqp.Channel) {
 			// and it's used to either says it successful or publish to the dead queue
 
 		    for i := 0; i <= maxRetry; i++ {
-            //    err := Send_email() // err is either true or false
-			//    if !err {
-			// 	*successAddress = true
-            //       break // exit loop
-			//    }
+              err := email.Send_Email(messagequed.Email, messagequed.Data.Variable.Name, messagequed.Data.Template_code, rds) // err is either true or false
+			   if !err {
+				*successAddress = true
+                  break // exit loop
+			   }
 
 			    *successAddress = false
 				time.Sleep(time.Second * 60) // waits for 60 seconds before retrying 

@@ -3,6 +3,7 @@ package message_broker
 import (
 	"os"
 	amqp "github.com/rabbitmq/amqp091-go"
+	
 )
 
 func Connect_to_rabitmq () (*amqp.Connection, *amqp.Channel){
@@ -15,8 +16,9 @@ func Connect_to_rabitmq () (*amqp.Connection, *amqp.Channel){
 	  RabbitMqError(err, "failed to connect to channel")
 
 
-   return connection, channel
 
 
+ return connection, channel
+   
 
 }
