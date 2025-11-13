@@ -23,8 +23,10 @@ func Consumer (channel *amqp.Channel) {
 		 nil,
 	)
 
+    if err != nil {
+		log.Println(err)
+	}
 
-	log.Println("failed to declare email.queu")
 
 	//  Dead-Letter (Failed Queue)	
   _, err = channel.QueueDeclare(
@@ -36,7 +38,10 @@ func Consumer (channel *amqp.Channel) {
   nil,
   )
 
-  	log.Println("Failed to declare failed queue")
+
+ if err != nil {
+		log.Println(err)
+	}
 
 
 	 messages, err := channel.Consume(
@@ -49,8 +54,12 @@ func Consumer (channel *amqp.Channel) {
 		nil,
 	 )
  	
+	  if err != nil {
+		log.Println(err)
+	}
+
 	 
-	 RabbitMqError(err, "Failed to register consumer")
+
 
 	forever := make(chan bool)
  
