@@ -1,14 +1,12 @@
 package model
 
 
-type VAribLE struct {
-	 Name string `json:"name"`
-	 Message string `json:"message"`
-}
+
 
 type DaTA struct {
 	Template_code string `json:"template_code"`
-	Variable VAribLE `json:"variable"`
+	Name string `json:"name"`
+	Link string `json:"link"`
 }
 type QueueResponse struct {
 	Correlation_id string `json:"correlation_id"` //for tracking
