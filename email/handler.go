@@ -22,7 +22,7 @@ func Send_Email (email model.QueueResponse) bool{
 
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
 
-	client := sendgrid.NewSendClient(os.Getenv("SENDMAILGRID_API_KEY"))
+	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
 
 	response, err := client.Send(message)
 
