@@ -16,7 +16,7 @@ func Send_Email (email model.QueueResponse) bool{
 
 	from := mail.NewEmail("App", "oyelowo.emmanuel001@gmail.com")
 	subject := email.Subject
-	to := mail.NewEmail(email.Data.Variable.Name, email.Email)
+	to := mail.NewEmail(email.Data.Name, email.Email)
 	plainTextContent := email.Text_body
 	htmlContent := email.Html_body
 
