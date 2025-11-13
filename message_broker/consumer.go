@@ -14,34 +14,34 @@ import (
 func Consumer (channel *amqp.Channel) {
 
 //   Email Queue
-	_, err := channel.QueueDeclare(
-		 "email.queue",
-		 true,
-		 false,
-		 false,
-		 false,
-		 nil,
-	)
+// 	_, err := channel.QueueDeclare(
+// 		 "email.queue",
+// 		 true,
+// 		 false,
+// 		 false,
+// 		 false,
+// 		 nil,
+// 	)
 
-    if err != nil {
-		log.Println(err)
-	}
-
-
-	//  Dead-Letter (Failed Queue)	
-  _, err = channel.QueueDeclare(
-	"failed.queue",
-	true,
-	false,
-	false,
-	false,
-  nil,
-  )
+//     if err != nil {
+// 		log.Println(err)
+// 	}
 
 
- if err != nil {
-		log.Println(err)
-	}
+// 	//  Dead-Letter (Failed Queue)	
+//   _, err = channel.QueueDeclare(
+// 	"failed.queue",
+// 	true,
+// 	false,
+// 	false,
+// 	false,
+//   nil,
+//   )
+
+
+//  if err != nil {
+// 		log.Println(err)
+// 	}
 
 
 	 messages, err := channel.Consume(
