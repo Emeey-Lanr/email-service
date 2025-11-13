@@ -31,9 +31,11 @@ func Send_Email (email model.QueueResponse) bool{
 	if err != nil{
 		log.Println("Unable to send email", err)
 		return true
-	}
-
-	log.Println(response)
+	}else{
+		log.Println(response.StatusCode)
+		log.Println(response.Body)
+        log.Println(response.Headers)
+	}	
 
 	return false
 } 
