@@ -58,6 +58,8 @@ func Consumer (channel *amqp.Channel) {
 		log.Println(err)
 	}
 
+	log.Println("email consumed")
+
 	 
 
 
