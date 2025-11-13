@@ -10,7 +10,7 @@ import (
 func main (){
 	
    if  err := godotenv.Load(); err != nil{
-	log.Fatal("Unable to connect to dotenv")
+	log.Println("Unable to connect to dotenv")
    }
   
 // Connect to RabbitMQ

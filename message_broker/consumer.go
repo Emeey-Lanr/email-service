@@ -69,9 +69,9 @@ func Consumer (channel *amqp.Channel) {
 				log.Println("Error decoding json", err)
 				continue
 			 }
-			log.Println(messagequed, "the message")
+			
              
-			//retry 3 rimes
+			//retry 3 times
 		    for i := 0; i <= maxRetry; i++ {
 				
 			// we send a bool true if there's error and false if there's no error
