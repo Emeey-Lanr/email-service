@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/joho/godotenv"
 	"github.com/emeey-lanr/email_service/message_broker"
-   "github.com/emeey-lanr/email_service/cache"
 	"log"
 )
 
@@ -11,7 +10,7 @@ import (
 func main (){
 	
    if  err := godotenv.Load(); err != nil{
-	log.Fatal("Unable to connect tp dotenv")
+	log.Fatal("Unable to connect to dotenv")
    }
   
 // Connect to RabbitMQ
@@ -20,10 +19,9 @@ func main (){
    defer connection.Close()
    defer channel.Close()
 
-   rds := cache.ConnectToRedis()
-    
-       message_broker.Consumer(channel, rds)
-//  Consume messages from queue
+// Consumer
+    message_broker.Consumer(channel)
+
     
 
 }

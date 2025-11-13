@@ -14,21 +14,11 @@ type QueueResponse struct {
 	Correlation_id string `json:"correlation_id"` //for tracking
 	Data DaTA `json:"data"` 
 	Email string `json:"email"`
+	Subject string `json:"subject"`
+	Html_body string `json:"html_body"`
+	Text_body string `json:"text_body"`
 
 }
 
 
 
-type EmailData struct {
-	Id string `json:"id"`
-	Code string `json:"code"`
-	Type string `json:"type"`
-	 Subject string `json:"subject"`
-	 Body string `json:"body"`
-	 Language string  `json:"language"`
-}
-type EmailTemplate struct {
-	Success string `json:"success"`
-	Data EmailData `json:"data"`
-	Message string `json:"message"`
-}

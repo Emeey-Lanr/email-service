@@ -2,17 +2,16 @@ package message_broker
 
 import (
 	"encoding/json"
-	"fmt"
+	"log"
 	"time"
-
 	"github.com/emeey-lanr/email_service/email"
 	"github.com/emeey-lanr/email_service/model"
 	amqp "github.com/rabbitmq/amqp091-go"
-	"github.com/redis/go-redis/v9"
+
 )
 
 
-func Consumer (channel *amqp.Channel, rds *redis.Client) {
+func Consumer (channel *amqp.Channel) {
 
 //   Email Queue
 	_, err := channel.QueueDeclare(
@@ -61,20 +60,23 @@ func Consumer (channel *amqp.Channel, rds *redis.Client) {
 		for data := range messages {
 			success := false
             successAddress := &success
-           
+            log.Println(string(data.Body), "message body")
+
 			var messagequed model.QueueResponse
         
-			json.Unmarshal([]byte(data.Body), &messagequed)
-
-			// since sendEmail return a bool
-			// when it's  true, we break the loop
-			// and change success to true if we break
-			//  if unable to break, success stays false 
-			// and it's used to either says it successful or publish to the dead queue
-
+			 err:= json.Unmarshal([]byte(data.Body), &messagequed)
+			 if err != nil {
+				log.Println("Error decoding json", err)
+				continue
+			 }
+			log.Println(messagequed, "the message")
+             
+			//retry 3 rimes
 		    for i := 0; i <= maxRetry; i++ {
-              err := email.Send_Email(messagequed.Email, messagequed.Data.Variable.Name, messagequed.Data.Template_code, rds) // err is either true or false
-			   if !err {
+				
+			// we send a bool true if there's error and false if there's no error
+              err := email.Send_Email(messagequed) // err is either true or false
+			   if !err  {
 				*successAddress = true
                   break // exit loop
 			   }
@@ -84,19 +86,25 @@ func Consumer (channel *amqp.Channel, rds *redis.Client) {
 			    
 
              if success {
-				 fmt.Println("message sent succesfully")
+				 log.Println("message sent succesfully")
 				data.Ack(false) // accknowledge message sent succesfully
 				// make a post request to change status
 			 }else{
-				
-				fmt.Println("Failed to send message")
+				channel.Publish(
+					"",
+					"failed.queue",
+					false,
+					false,
+					amqp.Publishing{
+						ContentType: "application/json",
+						Body: data.Body,
+					},
+				)
+				log.Println("Failed to send message, published to failed queue")
 				//publish to failed queue
 			 }
 
 			}
-		// your sen
-          fmt.Println("received message", data.Body)
-		   
 		  
 		}
 	

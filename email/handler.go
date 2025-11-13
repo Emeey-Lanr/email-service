@@ -1,26 +1,24 @@
 package email
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
-	"github.com/redis/go-redis/v9"
+		"github.com/emeey-lanr/email_service/model"
 
 )
 
 
-func Send_Email (email, name, template_code string, rds *redis.Client) bool{
+func Send_Email (email model.QueueResponse) bool{
  
-   
-    sbj, bdy := Decode_template(name, template_code,  rds)
 
-	from := mail.NewEmail("App", "oyelowo.emmauel001@gmail.com")
-	subject := sbj
-	to := mail.NewEmail(name, email)
-	plainTextContent := bdy
-	htmlContent := fmt.Sprintf("<h1>%s</h1>", bdy)
+	from := mail.NewEmail("App", "oyelowo.emmanuel001@gmail.com")
+	subject := email.Subject
+	to := mail.NewEmail(email.Data.Variable.Name, email.Email)
+	plainTextContent := email.Text_body
+	htmlContent := email.Html_body
 
 	message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
 
@@ -31,11 +29,11 @@ func Send_Email (email, name, template_code string, rds *redis.Client) bool{
 	// if there is an error it returns true
 	// if there is no error it returns fasle
 	if err != nil{
- 
+		log.Println("Unable to send email", err)
 		return true
 	}
 
-	fmt.Println(response)
+	log.Println(response)
 
 	return false
 } 
