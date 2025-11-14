@@ -41,20 +41,21 @@ Messages consumed from `email.queue`:
 ## Environment Variables
 
 ```env
-PORT=3002
-RABBITMQ_URL=amqp://localhost:5672
+RABBITMQ_URL=your-rabbitmq-url
 SENDGRID_API_KEY=your-api-key
 ```
 
 ## Running Locally
 
 ```bash
-go mod download
-go run cmd/main.go
+git clone https://github.com/Emeey-Lanr/email-service.git
+cd email-service
+git mod tidy
+go run main.go
 ```
 
 
 
 ## Retry Logic
 
-1. Attempt fails → waits 10 seconds for in 3 tries 
+1. Attempt fails → waits 10 seconds in 3 tries 
