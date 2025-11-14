@@ -25,16 +25,16 @@ Messages consumed from `email.queue`:
 {
   "notification_id": "uuid",
   "user_id": "uuid",
-  "email": "user@example.com",
-  "template_code": "welcome_email",
-  "variables": {
-    "name": "John Doe",
-    "link": "https://example.com",
-    "meta": {}
+  "correlation_id": "uuid",
+  "data": {
+    "template_code": "PASSWORD_RESET",
+    "name": "Habeeb",
+    "link": "https://hng.tech/reset/abc123"
   },
-  "priority": 1,
-  "request_id": "unique-request-id",
-  "retry_count": 0
+  "email": "habeeb@example.com",
+  "subject": "Reset Your Password",
+  "html_body": "<h1>Password Reset</h1><p>Hi Habeeb,</p><p>We received a request to reset your password. Click the link below to proceed:</p><p><a href=\"https://hng.tech/reset/abc123\">Reset Password</a></p>",
+  "text_body": "Hi Habeeb, we received a request to reset your password. Use this link: https://hng.tech/reset/abc123"
 }
 ```
 
